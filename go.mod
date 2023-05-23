@@ -1,4 +1,4 @@
-module pkg
+module github.com/DmitriiDobr/kafkaNotification/pkg
 
 go 1.19
 
