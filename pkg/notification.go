@@ -1,12 +1,8 @@
 package kafkaNotification
 
-type uuid int
-
-type status string
-
 type Message struct {
-	UserId uuid   `json:"user_id"`
-	Status status `json:"status"`
+	UserId int    `json:"user_id"`
+	Status string `json:"status"`
 	Header string `json:"header"`
 	Body   string `json:"body"`
 }
