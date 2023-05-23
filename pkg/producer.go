@@ -7,7 +7,7 @@ import (
 	"github.com/segmentio/kafka-go"
 )
 
-func Producer(ctx context.Context, status status, userId uuid, header, body string) {
+func Producer(ctx context.Context, userId int, status, header, body string) {
 
 	w := kafka.Writer{
 		Addr:  kafka.TCP(broker1Address, broker2Address, broker3Address),
