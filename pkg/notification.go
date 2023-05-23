@@ -1,4 +1,4 @@
-package pkg
+package kafkaNotification
 
 type uuid int
 
