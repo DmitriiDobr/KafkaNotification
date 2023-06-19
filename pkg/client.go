@@ -1,6 +1,7 @@
 package kafkaNotification
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/segmentio/kafka-go"
@@ -28,16 +29,18 @@ func New(cfg *Config) (*Client, error) {
 	return &Client{connection: conn}, nil
 }
 
-func (c *Client) Notify(message Message, topic string) error {
+func (c *Client) Notify(ctx context.Context, message Message, topic string) error {
 	body, err := json.Marshal(message)
 	if err != nil {
 		return err
 	}
-	_, err = c.connection.WriteMessages(kafka.Message{
-		Key:   []byte("notifier"),
-		Value: body,
-	})
 
+	w := &kafka.Writer{
+		Addr:     kafka.TCP("localhost:29092"),
+		Topic:    topic,
+		Balancer: &kafka.LeastBytes{},
+	}
+	err = w.WriteMessages(ctx, kafka.Message{Key: []byte("notifier"), Value: body})
 	if err != nil {
 		return err
 	}
