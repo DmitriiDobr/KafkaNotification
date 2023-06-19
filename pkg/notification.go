@@ -1,8 +1,16 @@
 package kafkaNotification
 
+type Status int
+
 const (
-	topic          = "my-kafka-topic"
-	broker1Address = "localhost:9093"
-	broker2Address = "localhost:9094"
-	broker3Address = "localhost:9095"
+	Success Status = iota
+	Warning
+	Error
 )
+
+type Message struct {
+	UserID int    `json:"user_id"`
+	Status Status `json:"status"`
+	Header string `json:"header"`
+	Body   string `json:"body"`
+}
