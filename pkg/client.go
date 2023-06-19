@@ -34,7 +34,6 @@ func (c *Client) Notify(message Message, topic string) error {
 		return err
 	}
 	_, err = c.connection.WriteMessages(kafka.Message{
-		Topic: topic,
 		Key:   []byte("notifier"),
 		Value: body,
 	})
