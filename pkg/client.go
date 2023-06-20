@@ -9,6 +9,8 @@ import (
 
 type Client struct {
 	connection *kafka.Conn
+	topic      string
+	address    string
 }
 
 type Config struct {
@@ -29,14 +31,14 @@ func New(cfg *Config) (*Client, error) {
 	return &Client{connection: conn}, nil
 }
 
-func (c *Client) Notify(ctx context.Context, message Message, topic string) error {
+func (c *Client) Notify(ctx context.Context, message Message, topic, address string) error {
 	body, err := json.Marshal(message)
 	if err != nil {
 		return err
 	}
 
 	w := &kafka.Writer{
-		Addr:     kafka.TCP("localhost:29092"),
+		Addr:     kafka.TCP(c.address),
 		Topic:    topic,
 		Balancer: &kafka.LeastBytes{},
 	}
