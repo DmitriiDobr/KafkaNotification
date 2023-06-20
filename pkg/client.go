@@ -16,6 +16,7 @@ type Client struct {
 type Config struct {
 	Brokers string
 	Topic   string
+	Address string
 }
 
 func New(cfg *Config) (*Client, error) {
@@ -28,7 +29,7 @@ func New(cfg *Config) (*Client, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &Client{connection: conn}, nil
+	return &Client{connection: conn, topic: cfg.Topic, address: cfg.Address}, nil
 }
 
 func (c *Client) Notify(ctx context.Context, message Message) error {
