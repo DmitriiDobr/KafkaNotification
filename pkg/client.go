@@ -31,15 +31,15 @@ func New(cfg *Config) (*Client, error) {
 	return &Client{connection: conn}, nil
 }
 
-func (c *Client) Notify(ctx context.Context, message Message, topic, address string) error {
+func (c *Client) Notify(ctx context.Context, message Message) error {
 	body, err := json.Marshal(message)
 	if err != nil {
 		return err
 	}
 
 	w := &kafka.Writer{
-		Addr:     kafka.TCP(c.address),
-		Topic:    topic,
+		Addr:     kafka.TCP(c.topic),
+		Topic:    c.address,
 		Balancer: &kafka.LeastBytes{},
 	}
 	err = w.WriteMessages(ctx, kafka.Message{Key: []byte("notifier"), Value: body})
