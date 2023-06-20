@@ -38,8 +38,8 @@ func (c *Client) Notify(ctx context.Context, message Message) error {
 	}
 
 	w := &kafka.Writer{
-		Addr:     kafka.TCP(c.topic),
-		Topic:    c.address,
+		Addr:     kafka.TCP(c.address),
+		Topic:    c.topic,
 		Balancer: &kafka.LeastBytes{},
 	}
 	err = w.WriteMessages(ctx, kafka.Message{Key: []byte("notifier"), Value: body})
